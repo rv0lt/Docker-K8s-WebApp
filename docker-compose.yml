@@ -8,7 +8,7 @@ networks:
 
 services:
   web:
-    image: flaskrediswebapp
+    image: rv0lt/flaskrediswebapp
     ports:
       - "5000:5000"
     environment:
