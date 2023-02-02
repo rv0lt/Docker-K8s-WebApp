@@ -5,11 +5,15 @@ Also, an implementation for a kubernetes cluster is provided.
 There are 3 folders in the project:
 
 **files**
+
+
 Contains the original files for the web application, as well as the Dockerfile to build the image. You can build the image with:
 
     docker build -t flaskrediswebapp .
 
 **docker**
+
+
 In this folder is the docker compose file that created two containers, one with the flask application created (pulling it from docker hub) and other container with redis. The connection to redis is secured with a password.
 To run the containers, simply run
 
@@ -22,6 +26,8 @@ To stop the containers:
     docker compose down
 
 **kubernetes**
+
+
 Finally, in this folder we have the files to run the same two images inside a Kubernetes cluster. 
 All the resources and objects can be created by the kustomization file provided. So that, simply by running 
 
