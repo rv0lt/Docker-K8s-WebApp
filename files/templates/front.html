@@ -1,0 +1,55 @@
+<html>
+  <head>
+    <title>Click Counter and Message Board</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <h1>Click Counter</h1>
+    <button id="click-button">Click Me</button>
+    <p>Number of clicks: <span id="click-count">{{clicks}}</span></p>
+    <button id="reset-button">Reset</button>
+    <br>
+    <h1>Message Board</h1>
+    <form id="write-form">
+      <input type="text" name="message" id="textmessage">
+      <input type="submit" value="Write">
+    </form>
+    <br>
+    <button id="read-button">Read last message</button>
+    <p id="message"></p>
+    <script>
+      const clickButton = $("#click-button");
+      const clickCount = $("#click-count");
+      const resetButton = $("#reset-button");
+      const readButton = $("#read-button");
+      const messageDisplay = $("#message");
+      const writeForm = $("#write-form");
+
+      clickButton.click(() => {
+        $.get("/click", (count) => {
+          clickCount.text(count);
+        });
+      });
+
+      resetButton.click(() => {
+        $.post("/reset", (count) => {
+          clickCount.text(count);
+        });
+      });
+
+      readButton.click(() => {
+        $.get("/read", (message) => {
+          messageDisplay.text(message);
+        });
+      });
+
+      writeForm.submit((event) => {
+        event.preventDefault();
+        const message = writeForm.find("input[name='message']").val();
+        $.post("/write", { message: message }, () => {});
+        document.getElementById('write-form').reset();
+      });
+      
+    </script>
+  </body>
+</html>

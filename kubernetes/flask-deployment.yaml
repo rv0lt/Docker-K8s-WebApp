@@ -1,0 +1,135 @@
+apiVersion: v1
+
+kind: Service
+
+metadata:
+
+  name: webapp
+
+  labels:
+
+    app: webapp
+
+spec:
+
+  ports:
+
+    - port: 5000
+
+  selector:
+
+    app: webapp
+
+    tier: flask
+
+  type: LoadBalancer
+
+---
+
+apiVersion: v1
+
+kind: PersistentVolumeClaim
+
+metadata:
+
+  name: webapp-pv-claim
+
+
+  labels:
+
+    app: webapp
+
+spec:
+
+  accessModes:
+
+    - ReadWriteOnce
+
+  resources:
+
+    requests:
+
+      storage: 20Gi
+
+---
+
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+
+  name: webapp
+  
+
+  labels:
+
+    app: webapp
+
+spec:
+
+  selector:
+
+    matchLabels:
+
+      app: webapp
+
+      tier: flask
+
+  strategy:
+
+    type: Recreate
+
+  template:
+
+    metadata:
+
+      labels:
+
+        app: webapp
+
+        tier: flask
+
+    spec:
+
+      containers:
+
+      - image: rv0lt/flaskrediswebapp:latest
+
+        name: webapp
+
+        env:
+
+        - name: R_HOSTNAME
+
+          value: redis-leader
+
+        - name: REDIS_PWD
+
+          valueFrom:
+
+            secretKeyRef:
+
+              name: redis-pass
+
+              key: password
+
+        ports:
+
+        - containerPort: 5000
+
+          name: webapp
+
+        volumeMounts:
+
+        - name: webapp-persistent-storage
+
+          mountPath: /lib/flask
+
+      volumes:
+
+      - name: webapp-persistent-storage
+
+        persistentVolumeClaim:
+
+          claimName: webapp-pv-claim
