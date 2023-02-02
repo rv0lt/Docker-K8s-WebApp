@@ -1,6 +1,6 @@
 # Docker-K8s-WebApp
 Sample (and simple) web application that uses flask and redis.  The web application is dockerized and uploaded to DockerHub. [Link here](https://hub.docker.com/repository/docker/rv0lt/flaskrediswebapp/general)
-Also, an implementation for a kubernetes cluster of the web app is provided.
+Also, an implementation for a kubernetes cluster is provided.
 
 There are 3 folders in the project:
 
