@@ -38,6 +38,12 @@ We will be able to set up the web application.
 If the cloud provided being used provides load balancing we could see the address to see the web by typing:
 
     kubectl get services -n webapp
+ 
+Otherwise, we can do port-forward in the cluster with:
+
+    kubectl port-forward service/webapp -n webapp 5000:5000
+
+And then you can access localhost:5000
 
 Finally, to clean the cluster, stop it with
 
