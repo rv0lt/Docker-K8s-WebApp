@@ -14,7 +14,21 @@ spec:
     app: redis
     role: leader
   clusterIP: None
-
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: redis-pv
+  labels:
+    type: local
+spec:
+  storageClassName: standard
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -27,8 +41,8 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 20Gi
-
+      storage: 1
+  storageClassName: standard
 ---
 apiVersion: apps/v1
 kind: Deployment
