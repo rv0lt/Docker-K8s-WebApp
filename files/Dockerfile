@@ -10,6 +10,8 @@ COPY . .
 
 ENV FLASK_APP=back.py
 
+
+# https://stackoverflow.com/questions/47335978/how-to-find-shared-library-used-by-a-python-module
 #---------- flask and redis modules external dependencies ----
 
 COPY --from=builder /lib/x86_64-linux-gnu/libnss_dns.so.2 /lib/x86_64-linux-gnu/libnss_dns.so.2
